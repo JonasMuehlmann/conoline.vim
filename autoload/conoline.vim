@@ -6,23 +6,32 @@ set cpo&vim
 function! s:insert() abort
   highlight! def link CursorLine ConoLineInsert
   highlight! def link CursorLineNr ConoLineInsertNr
+
+  highlight! def link CursorColumn ConoLineInsert
+  highlight! def link CursorColumnNr ConoLineInsertNr
 endfunction
 
 function! s:normal() abort
   highlight! def link CursorLine ConoLineNormal
   highlight! def link CursorLineNr ConoLineNormalNr
+
+  highlight! def link CursoColumn ConoLineNormal
+  highlight! def link CursorColumn ConoLineNormalNr
 endfunction
 
 function! s:winenter() abort
   setlocal cursorline
+  setlocal cursorcolumn
 endfunction
 
 function! s:winleave() abort
   setlocal nocursorline
+  setlocal nocursorcolumn
 endfunction
 
 function! conoline#disable() abort
   setlocal nocursorline
+  setlocal nocursorcolumn
   autocmd! conoline_only_active_window
   autocmd! conoline_color_insert
   autocmd! conoline_color_enable
@@ -38,6 +47,9 @@ function! conoline#set_hl(bg) abort
   if g:conoline_use_colorscheme_default_normal
     highlight! def link ConoLineNormal CursorLine
     highlight! def link ConoLineNormalNr CursorLineNr
+
+    highlight! def link ConoLineNormal CursorColumn
+    highlight! def link ConoLineNormalNr CursorColumnNr
   else
     execute 'highlight! ConoLineNormal ' . g:conoline_color_normal_{a:bg}
     execute 'highlight! ConoLineNormalNr ' . g:conoline_color_normal_nr_{a:bg}
@@ -46,6 +58,9 @@ function! conoline#set_hl(bg) abort
   if g:conoline_use_colorscheme_default_insert
     highlight! def link ConoLineInsert CursorLine
     highlight! def link ConoLineInsertNr CursorLineNr
+
+    highlight! def link ConoLineInsert CursorColumn
+    highlight! def link ConoLineInsertNr CursorColumnNr
   else
     execute 'highlight! ConoLineInsert ' . g:conoline_color_insert_{a:bg}
     execute 'highlight! ConoLineInsertNr ' . g:conoline_color_insert_nr_{a:bg}
@@ -83,6 +98,7 @@ function! conoline#enable() abort
   augroup END
 
   setlocal cursorline
+  setlocal cursorcolumn
   call s:normal()
   let s:enabled = 1
 endfunction
